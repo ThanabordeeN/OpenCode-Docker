@@ -1,5 +1,6 @@
 # Docker Data
 app/
+skills/
 
 # Environment Variables
 .env
@@ -15,4 +16,5 @@ yarn-error.log*
 # System
 .DS_Store
 Thumbs.db
+config/opencode/skills
 config/opencode/skills
