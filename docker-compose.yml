@@ -7,7 +7,7 @@ services:
     ports:
       - "4096:4096"
     volumes:
-      - ./data/opencode:/home/agent/.opencode
+      - ./config/opencode:/home/agent/.config/opencode
       - .:/app
     environment:
       - OPENCODE_SERVER_PASSWORD=${OPENCODE_SERVER_PASSWORD:-secret}

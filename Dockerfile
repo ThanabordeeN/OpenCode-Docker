@@ -5,13 +5,17 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     gosu \
+    nano \
+    sudo \
     && rm -rf /var/lib/apt/lists/*
 
 # Install OpenCode globally (as root, but will be used by agent)
 RUN npm install -g opencode-ai
 
 # Create a dedicated non-root user for the agent
-RUN groupadd -r agent && useradd -r -g agent -m -d /home/agent -s /bin/bash agent
+RUN groupadd -r agent && useradd -r -g agent -m -d /home/agent -s /bin/bash agent \
+    && echo "agent ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/agent \
+    && chmod 0440 /etc/sudoers.d/agent
 
 # Create agent home and config dir, restrict access to agent only
 RUN mkdir -p /home/agent/.opencode /home/agent/.npm-global/bin && \
