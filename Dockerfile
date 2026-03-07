@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     sudo \
     && rm -rf /var/lib/apt/lists/*
 
-# Install OpenCode globally (as root, but will be used by agent)
+# Install OpenCode globally
 RUN npm install -g opencode-ai
 
 # Create a dedicated non-root user for the agent
