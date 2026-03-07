@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install OpenCode globally
-RUN npm install -g opencode-ai
+RUN npm install -g opencode-ai@1.2.21
 
 # Create a dedicated non-root user for the agent
 RUN groupadd -r agent && useradd -r -g agent -m -d /home/agent -s /bin/bash agent \
