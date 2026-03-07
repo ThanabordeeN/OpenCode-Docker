@@ -7,10 +7,11 @@ services:
     ports:
       - "4096:4096"
     volumes:
-      - ./data/opencode:/root/.opencode
+      - ./data/opencode:/home/agent/.opencode
       - .:/app
     environment:
       - OPENCODE_SERVER_PASSWORD=${OPENCODE_SERVER_PASSWORD:-secret}
+      - OPENCODE_SERVER_USERNAME=${OPENCODE_SERVER_USERNAME:-admin}
     restart: unless-stopped
 
   tunnel:
