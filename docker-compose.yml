@@ -1,0 +1,26 @@
+services:
+  opencode-web:
+    build: .
+    image: opencode-web:node24
+    container_name: opencode-web
+    hostname: opencode-web
+    ports:
+      - "4096:4096"
+    volumes:
+      - ./data/opencode:/root/.opencode
+      - .:/app
+    environment:
+      - OPENCODE_SERVER_PASSWORD=${OPENCODE_SERVER_PASSWORD:-secret}
+    restart: unless-stopped
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflare-tunnel
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    depends_on:
+      - opencode-web
+    restart: unless-stopped
+
+networks:
+  default:
+    name: opencode-network
