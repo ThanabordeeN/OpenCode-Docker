@@ -7,10 +7,12 @@ RUN apt-get update && apt-get install -y \
     gosu \
     nano \
     sudo \
+    python3 \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install OpenCode globally
-RUN npm install -g opencode-ai@1.2.21
+RUN npm install -g opencode-ai
 
 # Create a dedicated non-root user for the agent
 RUN groupadd -r agent && useradd -r -g agent -m -d /home/agent -s /bin/bash agent \
@@ -18,10 +20,16 @@ RUN groupadd -r agent && useradd -r -g agent -m -d /home/agent -s /bin/bash agen
     && chmod 0440 /etc/sudoers.d/agent
 
 # Create agent home and config dir, restrict access to agent only
-RUN mkdir -p /home/agent/.opencode /home/agent/.npm-global/bin && \
+RUN mkdir -p /home/agent/.opencode /home/agent/.npm-global/bin /home/agent/.local/bin && \
     chown -R agent:agent /home/agent && \
     chmod 700 /home/agent && \
     chmod 700 /home/agent/.opencode
+
+# Install uv for the agent user
+USER agent
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+RUN /home/agent/.local/bin/uv python install 3.12
+USER root
 
 # Create /app for Docker project files - root-owned, agent cannot read
 RUN mkdir -p /app && chmod 700 /app
@@ -31,7 +39,7 @@ COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
 # Redirect npm global installs to user-owned directory
 ENV NPM_CONFIG_PREFIX=/home/agent/.npm-global
-ENV PATH=/home/agent/.npm-global/bin:$PATH
+ENV PATH=/home/agent/.npm-global/bin:/home/agent/.local/bin:$PATH
 
 # Working directory is the agent home — this is what OpenCode will show
 WORKDIR /home/agent
