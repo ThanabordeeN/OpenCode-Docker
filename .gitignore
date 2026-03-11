@@ -18,3 +18,5 @@ yarn-error.log*
 Thumbs.db
 config/opencode/skills
 config/opencode/skills
+
+data/*

@@ -1,0 +1,97 @@
+{
+  "preset": "dynamic",
+  "presets": {
+    "dynamic": {
+      "oracle": {
+        "model": "anthropic/claude-sonnet-4-6",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      },
+      "orchestrator": {
+        "model": "anthropic/claude-sonnet-4-6",
+        "skills": [
+          "*"
+        ],
+        "mcps": [
+          "websearch"
+        ]
+      },
+      "fixer": {
+        "model": "kilo/google/gemini-3-flash-preview",
+        "variant": "low",
+        "skills": [],
+        "mcps": []
+      },
+      "designer": {
+        "model": "kilo/google/gemini-3-flash-preview",
+        "variant": "medium",
+        "skills": [
+          "agent-browser"
+        ],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "kilo/z-ai/glm-5",
+        "variant": "low",
+        "skills": [],
+        "mcps": [
+          "websearch",
+          "context7",
+          "grep_app"
+        ]
+      },
+      "explorer": {
+        "model": "kilo/minimax/minimax-m2.5",
+        "variant": "low",
+        "skills": [],
+        "mcps": []
+      }
+    }
+  },
+  "balanceProviderUsage": false,
+  "fallback": {
+    "enabled": true,
+    "timeoutMs": 15000,
+    "chains": {
+      "oracle": [
+        "anthropic/claude-sonnet-4-6",
+        "kilo/google/gemini-3-flash-preview",
+        "opencode/gpt-5-nano"
+      ],
+      "orchestrator": [
+        "anthropic/claude-sonnet-4-6",
+        "kilo/google/gemini-3-flash-preview",
+        "opencode/gpt-5-nano"
+      ],
+      "fixer": [
+        "kilo/google/gemini-3-flash-preview",
+        "anthropic/claude-sonnet-4-6",
+        "opencode/gpt-5-nano",
+        "opencode/mimo-v2-flash-free"
+      ],
+      "designer": [
+        "kilo/google/gemini-3-flash-preview",
+        "anthropic/claude-sonnet-4-6",
+        "opencode/gpt-5-nano"
+      ],
+      "librarian": [
+        "kilo/z-ai/glm-5",
+        "kilo/google/gemini-3-flash-preview",
+        "opencode/gpt-5-nano",
+        "opencode/mimo-v2-flash-free"
+      ],
+      "explorer": [
+        "kilo/minimax/minimax-m2.5",
+        "kilo/z-ai/glm-5:free",
+        "opencode/minimax-m2.5-free",
+        "opencode/mimo-v2-flash-free"
+      ]
+    }
+  },
+  "tmux": {
+    "enabled": true,
+    "layout": "main-vertical",
+    "main_pane_size": 60
+  }
+}

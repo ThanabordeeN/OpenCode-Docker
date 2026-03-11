@@ -6,6 +6,7 @@ services:
     hostname: opencode-web
     volumes:
       - ./config/opencode:/home/agent/.config/opencode
+      - ./data/opencode:/home/agent/.local/share/opencode
       - .:/app
     environment:
       - OPENCODE_SERVER_PASSWORD=${OPENCODE_SERVER_PASSWORD:-secret}
