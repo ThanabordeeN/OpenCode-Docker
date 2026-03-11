@@ -25,11 +25,13 @@ RUN mkdir -p /home/agent/.opencode /home/agent/.npm-global/bin /home/agent/.loca
     chmod 700 /home/agent && \
     chmod 700 /home/agent/.opencode
 
-# Install uv for the agent user
 USER agent
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 RUN /home/agent/.local/bin/uv python install 3.12
+
 USER root
+RUN ln -s /home/agent/.local/bin/uv /usr/local/bin/uv && \
+    ln -s /home/agent/.local/bin/uvx /usr/local/bin/uvx
 
 # Create /app for Docker project files - root-owned, agent cannot read
 RUN mkdir -p /app && chmod 700 /app
